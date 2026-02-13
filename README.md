@@ -130,7 +130,7 @@
         </div>
 
         <!-- Link toko online -->
-        <a href="https://boetepaythea-sudo.github.io/Inspection-App/" target="_blank"
+        <a href="https://boetepaythea-sudo.github.io/Application-New-Product/"
             style="margin-left: 10px; text-decoration: none; color: blue; font-weight: bold;">
             Aplikasi Inspect
         </a>
