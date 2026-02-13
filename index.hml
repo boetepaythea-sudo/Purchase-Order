@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>App2 – Data PO</title>
+    </head>
+
+    <body>
+
+        <h1>App2 – Purchase Order</h1>
+
+        <p id="status"></p>
+
+        <button onclick="backToApp1()">Back to App1</button>
+
+        <script>
+            // Cek Login di App2
+            if (localStorage.getItem("isLogin") === "true") {
+                document.getElementById("status").innerText =
+                    "You are logged in as " + localStorage.getItem("username");
+            } else {
+                document.getElementById("status").innerText =
+                    "Not logged in — return to App1";
+            }
+
+            // Balik ke App1
+            function backToApp1() {
+                window.location.href = "https://boetepaythea-sudo.github.io/Application-New-Product/";
+            }
+        </script>
+
+    </body>
+
+</html>
