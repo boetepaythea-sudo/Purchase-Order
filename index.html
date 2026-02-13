@@ -186,6 +186,7 @@
         </select>
 
         <button onclick="window.print()">Print / Save PDF</button>
+        <button onclick="backToApp1()">🔙 Kembali ke App1</button>
         <!-- JUDUL PO -->
         <div id="poHeader" style="margin-top:20px; margin-bottom:10px; display:none;">
             <h2 style="margin:0;">Purchase Order</h2>
@@ -502,6 +503,10 @@
             } else {
                 document.getElementById("status").innerText =
                     "Belum login atau login sudah berakhir di App1";
+            }
+
+            function backToApp1() {
+                window.location.href = "https://boetepaythea-sudo.github.io/Application-New-Product/";
             }
 
             /* ================= ELEMENT ================= */
