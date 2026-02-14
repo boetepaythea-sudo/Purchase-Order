@@ -163,8 +163,8 @@
         <table id="dataTable">
             <thead>
                 <tr>
-                    <th>Nama Vendor</th>
-                    <th>Nama PO</th>
+                    <th>Vendor</th>
+                    <th>PO</th>
                     <th>Item</th>
                     <th>Qty PO</th>
                     <th>Qty AQL</th>
@@ -11192,8 +11192,8 @@
                         const tr = document.createElement("tr");
                         const qtyAQL = hitungAQL(item.qty);
                         tr.innerHTML = `
-                        <td data-label="Nama Vendor">${data[po].Vendor}</td>
-                        <td data-label="Nama PO">${po}</td>
+                        <td data-label="Vendor">${data[po].Vendor}</td>
+                        <td data-label="PO">${po}</td>
                         <td data-label="Item">${item.item}</td>
                         <td data-label="Qty PO">${item.qty}</td>
                         <td data-label="Qty AQL">${qtyAQL}</td>
