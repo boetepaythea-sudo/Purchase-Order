@@ -1,23 +1,42 @@
 <!DOCTYPE html>
 <html lang="id">
-
     <head>
         <meta charset="UTF-8">
         <title>Print Vendor & PO</title>
-
         <style>
-            body {
-                font-family: Arial, sans-serif;
-                padding: 20px;
+                       /* GLOBAL RESET & BODY */
+            * {
                 margin: 0;
-                background: #f9f9f9;
+                padding: 0;
+                box-sizing: border-box;
             }
 
+            body {
+                font-family: Arial, sans-serif;
+                background: #f9f9f9;
+                color: #333;
+                line-height: 1.4;
+                padding: 20px 40px;
+                min-width: 1024px;
+            }
+
+            /* SECTION / CONTENT */
+            section {
+                padding: 30px 40px;
+                background: #fff;
+                margin: 20px auto;
+                border-radius: 10px;
+                max-width: 1200px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            /* SELECT & BUTTON */
             select,
             button {
-                padding: 8px 12px;
+                padding: 10px 15px;
+                font-size: 14px;
                 margin-right: 10px;
-                margin-bottom: 10px;
+                margin-bottom: 15px;
                 border-radius: 5px;
                 border: 1px solid #ccc;
                 cursor: pointer;
@@ -26,14 +45,41 @@
 
             select:hover,
             button:hover {
-                background-color: #eaeaea;
+                background: #eaeaea;
+            }
+
+            button {
+                background: #1e90ff;
+                color: #fff;
+                border: none;
+            }
+
+            button:hover {
+                background: #0f78d1;
+            }
+
+            /* PO HEADER */
+            #poHeader {
+                text-align: center;
+                margin-bottom: 15px;
+                background: #fff;
+                padding: 15px;
+                border-radius: 5px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                display: none;
+            }
+
+            /* TABLE */
+            .table-container {
+                width: 100%;
+                overflow-x: auto;
+                margin-top: 15px;
             }
 
             table {
                 border-collapse: collapse;
                 width: 100%;
                 font-size: 13px;
-                margin-top: 15px;
                 background: #fff;
                 border-radius: 5px;
                 overflow: hidden;
@@ -49,7 +95,7 @@
             }
 
             th {
-                background-color: #f2f2f2;
+                background: #f2f2f2;
                 text-align: center;
             }
 
@@ -65,18 +111,11 @@
                 margin: auto;
             }
 
-            #poHeader {
-                text-align: center;
-                margin-bottom: 15px;
-            }
-
+            /* PRINT STYLE */
             @media print {
 
                 select,
-                button {
-                    display: none;
-                }
-
+                button,
                 h3 {
                     display: none;
                 }
