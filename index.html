@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="id">
+
     <head>
         <meta charset="UTF-8">
         <title>Print Vendor & PO</title>
+
         <style>
-                       /* GLOBAL RESET & BODY */
             * {
                 margin: 0;
                 padding: 0;
@@ -15,19 +16,8 @@
                 font-family: Arial, sans-serif;
                 background: #f9f9f9;
                 color: #333;
-                line-height: 1.4;
                 padding: 20px 40px;
                 min-width: 1024px;
-            }
-
-            /* SECTION / CONTENT */
-            section {
-                padding: 30px 40px;
-                background: #fff;
-                margin: 20px auto;
-                border-radius: 10px;
-                max-width: 1200px;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             }
 
             /* SELECT & BUTTON */
@@ -40,12 +30,6 @@
                 border-radius: 5px;
                 border: 1px solid #ccc;
                 cursor: pointer;
-                transition: 0.2s;
-            }
-
-            select:hover,
-            button:hover {
-                background: #eaeaea;
             }
 
             button {
@@ -54,44 +38,83 @@
                 border: none;
             }
 
-            button:hover {
-                background: #0f78d1;
-            }
+            /* ================= HEADER CORPORATE ================= */
 
-            /* PO HEADER */
-            #poHeader {
-                text-align: center;
-                margin-bottom: 15px;
+            .print-header {
                 background: #fff;
-                padding: 15px;
-                border-radius: 5px;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
                 display: none;
             }
 
-            /* TABLE */
-            .table-container {
-                width: 100%;
-                overflow-x: auto;
-                margin-top: 15px;
+            .company-title {
+                text-align: left;
+                /* tetap kiri */
+                margin-bottom: 10px;
             }
+
+            .company-title h1 {
+                letter-spacing: 2px;
+            }
+
+            .company-section-left {
+                display: flex;
+                flex-direction: column;
+                /* logo di atas teks */
+                align-items: flex-start;
+                /* rata kiri */
+                gap: 8px;
+                margin-bottom: 10px;
+            }
+
+            .company-logo {
+                width: 120px;
+                height: auto;
+            }
+
+            .company-info p {
+                margin: 3px 0;
+                font-size: 14px;
+                /* ukuran default untuk semua teks */
+            }
+
+            /* khusus alamat */
+            .company-info p.address {
+                font-size: 12px;
+                /* atur sesuai keinginan */
+                color: #333;
+                /* opsional, ganti warna jika perlu */
+            }
+
+            .po-info {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 10px;
+            }
+
+            .po-info p {
+                margin: 4px 0;
+            }
+
+            hr {
+                margin: 10px 0;
+            }
+
+            /* ================= TABLE ================= */
 
             table {
                 border-collapse: collapse;
                 width: 100%;
                 font-size: 13px;
                 background: #fff;
-                border-radius: 5px;
-                overflow: hidden;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             }
 
             th,
             td {
                 border: 1px solid #ddd;
                 padding: 10px;
-                vertical-align: middle;
-                word-wrap: break-word;
             }
 
             th {
@@ -99,19 +122,14 @@
                 text-align: center;
             }
 
-            td:nth-child(4),
-            td:nth-child(5) {
-                text-align: center;
-            }
-
             td img {
                 max-width: 80px;
-                max-height: 80px;
                 display: block;
                 margin: auto;
             }
 
-            /* PRINT STYLE */
+            /* ================= PRINT ================= */
+
             @media print {
 
                 select,
@@ -120,20 +138,23 @@
                     display: none;
                 }
 
-                table {
-                    font-size: 11px;
-                    page-break-inside: auto;
+                body {
+                    background: #fff;
                 }
 
-                tr {
-                    page-break-inside: avoid;
-                    page-break-after: auto;
+                .print-header {
+                    display: block !important;
+                    box-shadow: none;
+                    page-break-after: avoid;
+                }
+
+                table {
+                    font-size: 11px;
                 }
 
                 th {
                     background: #ddd !important;
                     -webkit-print-color-adjust: exact;
-                    print-color-adjust: exact;
                 }
             }
         </style>
@@ -154,11 +175,50 @@
         <button onclick="window.print()">Print / Save PDF</button>
         <button onclick="backToApp1()">🔙 Back to Application</button>
 
-        <div id="poHeader" style="display:none;">
-            <h2 style="margin:0;">Purchase Order</h2>
-            <p style="margin:2px 0;"><strong>Vendor :</strong> <span id="headerVendor"></span></p>
-            <p style="margin:2px 0;"><strong>PO :</strong> <span id="headerPO"></span></p>
+        <!-- ================= HEADER ================= -->
+        <div id="poHeader" class="print-header">
+
+            <!-- Judul -->
+            <div class="company-title" style="text-align:right;">
+                <h1>PURCHASE ORDER</h1>
+            </div>
+
+            <!-- Logo + Company Info -->
+            <div class="company-section-left">
+                <div class="logo-area">
+                    <img src="https://www.jeffan.com/sca-dev-2024-2-0/extensions/Intente/Jeffan_21_1_0/21.1.0/img/jeffan-logo.png"
+                        alt="Logo Perusahaan" class="company-logo">
+                    <p>BRING STYLE HOME</p>
+                </div>
+                <div class="company-info">
+                    <p><strong>Office :</strong></p>
+                    <p><strong>Jeffan International</strong></p>
+                    <p class="address">1307 E. Main St, ste 1</p>
+                    <p class="address">Chattanooga, TN 37404</p>
+                    <p class="address">Ph: 423.622.0180</p>
+                    <p class="address">Fax: 423.622.0182</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- PO INFORMATION -->
+            <div class="po-info">
+                <div class="left-info">
+                    <p><strong>Vendor :</strong> <span id="headerVendor"></span></p>
+                    <p><strong>PO :</strong> <span id="headerPO"></span></p>
+                    <p><strong>ECRD :</strong> <span id="headerECRD"></span></p>
+                </div>
+                <div class="right-info">
+                    <p><strong>Print Date :</strong> <span id="printDate"></span></p>
+                </div>
+            </div>
+
+            <hr>
+
         </div>
+
+        <!-- ================= TABLE ================= -->
 
         <table id="dataTable">
             <thead>
@@ -11203,9 +11263,12 @@
                 const vendorSelect = document.getElementById("vendorSelect");
                 const poSelect = document.getElementById("poSelect");
                 const tbody = document.querySelector("#dataTable tbody");
+                
                 const poHeader = document.getElementById("poHeader");
                 const headerVendor = document.getElementById("headerVendor");
                 const headerPO = document.getElementById("headerPO");
+                const headerECRD = document.getElementById("headerECRD");
+                const printDate = document.getElementById("printDate");
 
                 // Isi vendor dropdown
                 [...new Set(Object.values(data).map(d => d.Vendor))].forEach(v => {
@@ -11242,6 +11305,21 @@
 
                     headerVendor.textContent = data[po].Vendor;
                     headerPO.textContent = po;
+
+                    headerECRD.textContent =
+                        new Date(data[po].ecrd).toLocaleDateString("id-ID", {
+                            day: "2-digit",
+                            month: "long",
+                            year: "numeric"
+                        });
+
+                    printDate.textContent =
+                        new Date().toLocaleDateString("id-ID", {
+                            day: "2-digit",
+                            month: "long",
+                            year: "numeric"
+                        });
+                    
                     poHeader.style.display = "block";
 
                     data[po].items.forEach(item => {
