@@ -426,7 +426,22 @@
                 </table>
             </div>
         </div>
-
+        <!-- Modal untuk zoom gambar -->
+        <div id="imgModal" style="
+        display:none; 
+        position:fixed; 
+        z-index:1000; 
+        left:0; 
+        top:0; 
+        width:100%; 
+        height:100%; 
+        background-color: rgba(0,0,0,0.8); 
+        text-align:center;">
+            <img id="modalImg" style="
+            max-width:90%; 
+            max-height:90%; 
+            margin-top:5%; cursor:pointer;">
+        </div>
         <!-- Tambahkan ini di bagian <head> -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -11588,13 +11603,31 @@
     <td class="qty">${item.qty}</td>
     <td class="aql">${qtyAQL}</td>
     <td>${item.desc}</td>
-    <td><img src="${item.image}"></td>
+    <td>
+    <img src="${item.image}" style="cursor:pointer; max-width:100px;" onclick="toggleModal(this)">
+   </td>
 `;
-                        
+
                         tbody.appendChild(tr);
                     });
                 });
             });
+
+            function toggleModal(img) {
+                const modal = document.getElementById('imgModal');
+                const modalImg = document.getElementById('modalImg');
+
+                modal.style.display = "block";
+                modalImg.src = img.src;
+            }
+
+            // Klik area gelap atau gambar modal → tutup
+            document.getElementById('imgModal').onclick = function (e) {
+                // Tutup jika klik modal sendiri atau klik gambar
+                if (e.target.id === 'imgModal' || e.target.id === 'modalImg') {
+                    this.style.display = "none";
+                }
+            }
 
         </script>
     </body>
