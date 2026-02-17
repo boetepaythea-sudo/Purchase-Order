@@ -11571,12 +11571,13 @@
                         const tr = document.createElement("tr");
                         const qtyAQL = hitungAQL(item.qty);
                         tr.innerHTML = `
-                        <td>${item.item}</td>
-                        <td>${item.qty}</td>
-                        <td>${qtyAQL}</td>
-                        <td>${item.desc}</td>
-                        <td><img src="${item.image}"></td>
-                    `;
+    <td>${item.item}</td>
+    <td style="text-align:center">${item.qty}</td>
+    <td style="text-align:center">${qtyAQL}</td>
+    <td>${item.desc}</td>
+    <td><img src="${item.image}"></td>
+`;
+
                         tbody.appendChild(tr);
                     });
                 });
