@@ -309,6 +309,19 @@
                 margin: 1px 0;
                 font-size: 13px;
             }
+            #dataTable td.item {
+                width: 150px;
+                /* bisa diubah sesuai kebutuhan */
+                max-width: 150px;
+                word-wrap: break-word;
+                /* agar teks panjang tetap turun ke baris baru */
+            }
+
+            /* Tetap center untuk Qty dan AQL */
+            #dataTable td.qty,
+            #dataTable td.aql {
+                text-align: center;
+            }
         </style>
     </head>
 
@@ -11571,13 +11584,13 @@
                         const tr = document.createElement("tr");
                         const qtyAQL = hitungAQL(item.qty);
                         tr.innerHTML = `
-    <td>${item.item}</td>
-    <td style="text-align:center">${item.qty}</td>
-    <td style="text-align:center">${qtyAQL}</td>
+    <td class="item">${item.item}</td>
+    <td class="qty">${item.qty}</td>
+    <td class="aql">${qtyAQL}</td>
     <td>${item.desc}</td>
     <td><img src="${item.image}"></td>
 `;
-
+                        
                         tbody.appendChild(tr);
                     });
                 });
