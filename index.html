@@ -74,23 +74,16 @@
                 height: auto;
             }
 
-            .company-info p {
-                margin: 3px 0;
-                font-size: 14px;
-                /* ukuran default untuk semua teks */
-            }
-
             /* khusus alamat */
             .company-info p.address {
-                font-size: 12px;
-                /* atur sesuai keinginan */
+                font-size: 14px;
                 color: #333;
-                /* opsional, ganti warna jika perlu */
             }
 
             .po-info {
                 display: flex;
                 justify-content: space-between;
+                font-size: 12px;
                 margin-top: 10px;
             }
 
@@ -100,6 +93,28 @@
 
             hr {
                 margin: 10px 0;
+            }
+
+            .company-addresses {
+                display: flex;
+                justify-content: space-between;
+                /* kiri & kanan */
+                width: 100%;
+                gap: 20px;
+                /* jarak antar kolom */
+                margin-top: 0px;
+            }
+
+            .company-addresses .office,
+            .company-addresses .warehouse {
+                flex: 1;
+                /* agar masing-masing mengambil ruang yang proporsional */
+            }
+
+            .company-addresses p {
+                margin: 2px 0;
+                font-size: 12px;
+                /* bisa diatur sesuai kebutuhan */
             }
 
             /* ================= TABLE ================= */
@@ -127,6 +142,7 @@
                 display: block;
                 margin: auto;
             }
+
 
             /* ================= PRINT ================= */
 
@@ -182,7 +198,7 @@
             <div class="company-title" style="text-align:right;">
                 <h1>PURCHASE ORDER</h1>
             </div>
-
+            
             <!-- Logo + Company Info -->
             <div class="company-section-left">
                 <div class="logo-area">
@@ -190,18 +206,24 @@
                         alt="Logo Perusahaan" class="company-logo">
                     <p>BRING STYLE HOME</p>
                 </div>
-                <div class="company-info">
-                    <p><strong>Office :</strong></p>
-                    <p><strong>Jeffan International</strong></p>
-                    <p class="address">1307 E. Main St, ste 1</p>
-                    <p class="address">Chattanooga, TN 37404</p>
-                    <p class="address">Ph: 423.622.0180</p>
-                    <p class="address">Fax: 423.622.0182</p>
+                <div class="company-info"></div>
+                <p><strong>Jeffan International</strong></p>
+                <div class="company-addresses">
+                    <div class="office">
+                        <p><strong>Office :</strong></p>
+                        <p class="address">1307 E. Main St, ste 1</p>
+                        <p class="address">Chattanooga, TN 37404</p>
+                        <p class="address">Ph: 423.622.0180</p>
+                        <p class="address">Fax: 423.622.0182</p>
+                    </div>
+                    <div class="warehouse">
+                        <p><strong>Warehouse :</strong>
+                        <p> 420 Workman Rd</p>
+                        <p>Chattanooga, TN 37410</p>
+                    </div>
                 </div>
             </div>
-
             <hr>
-
             <!-- PO INFORMATION -->
             <div class="po-info">
                 <div class="left-info">
@@ -213,9 +235,7 @@
                     <p><strong>Print Date :</strong> <span id="printDate"></span></p>
                 </div>
             </div>
-
             <hr>
-
         </div>
 
         <!-- ================= TABLE ================= -->
