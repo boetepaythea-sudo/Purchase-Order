@@ -11307,18 +11307,15 @@
                     headerPO.textContent = po;
 
                     headerECRD.textContent =
-                        new Date(data[po].ecrd).toLocaleDateString("id-ID", {
+                        new Date(data[po].ecrd).toLocaleDateString("en-US", {
                             day: "2-digit",
                             month: "long",
                             year: "numeric"
                         });
 
-                    printDate.textContent =
-                        new Date().toLocaleDateString("id-ID", {
-                            day: "2-digit",
-                            month: "long",
-                            year: "numeric"
-                        });
+                    const printDateElement = document.getElementById("printDate");
+                    const printDate = new Date();
+                    printDateElement.textContent = printDate.toLocaleDateString("en-US");
                     
                     poHeader.style.display = "block";
 
