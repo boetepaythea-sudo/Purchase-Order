@@ -3,43 +3,148 @@
 
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Print Vendor & PO</title>
 
         <style>
+            /* ================= GLOBAL ================= */
             * {
-                margin: 0;
-                padding: 0;
                 box-sizing: border-box;
             }
 
             body {
+                margin: 0;
                 font-family: Arial, sans-serif;
-                background: #f9f9f9;
-                color: #333;
-                padding: 20px 40px;
-                min-width: 1024px;
+                min-height: 100vh;
+                background-image: url('https://www.jeffan.com/web-assets/images/landing/living-hero.jpg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                position: relative;
             }
 
-            /* SELECT & BUTTON */
-            select,
-            button {
-                padding: 10px 15px;
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background: rgba(255, 255, 255, 0.75);
+                z-index: 0;
+            }
+
+            .app-layout,
+            .app-layout * {
+                position: relative;
+                z-index: 1;
+            }
+
+            /* ================= LAYOUT ================= */
+            .app-layout {
+                display: flex;
+                min-height: 100vh;
+            }
+
+            /* ================= SIDEBAR ================= */
+            .sidebar {
+                width: 270px;
+                background: linear-gradient(180deg, #1a84f5 0%, #0f038f 100%);
+                color: white;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .sidebar-logo {
+                width: 140px;
+                margin-bottom: 10px;
+            }
+
+            .sidebar h1 {
+                font-size: 18px;
+                margin: 5px 0;
+            }
+
+            .sidebar h2 {
                 font-size: 14px;
-                margin-right: 10px;
-                margin-bottom: 15px;
-                border-radius: 5px;
+                margin: 0 0 10px;
+            }
+
+            /* ================= MAIN CONTENT ================= */
+            .main-content {
+                flex: 1;
+                padding: 30px;
+            }
+
+            /* ================= ONLINE STORE LINKS ================= */
+            .toko-online {
+                margin-top: 20px;
+                text-align: center;
+            }
+
+            .link-toko {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .link-toko a {
+                color: white;
+                text-decoration: none;
+                font-size: 14px;
+            }
+
+            .link-toko a:hover {
+                text-decoration: underline;
+            }
+
+
+            /* ================= FORM ================= */
+            .container {
+                width: 100%;
+                margin-top: 15px;
+            }
+
+            select,
+            input,
+            button {
+                width: 100%;
+                padding: 10px;
+                margin-top: 8px;
+                font-size: 14px;
+                border-radius: 6px;
                 border: 1px solid #ccc;
-                cursor: pointer;
             }
 
             button {
-                background: #1e90ff;
-                color: #fff;
+                background: #1a24e6;
+                color: white;
                 border: none;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+            button:hover {
+                background: #f5f5f6bd;
+            }
+
+            /* ================= CLOCK ================= */
+            #clock-container {
+                margin: 10px 0;
+                text-align: center;
+            }
+
+            #clock-time {
+                font-weight: bold;
+                font-size: 14px;
+                color: #090909;
+            }
+
+            #clock-date {
+                font-size: 12px;
+                color: #090909;
             }
 
             /* ================= HEADER CORPORATE ================= */
-
             .print-header {
                 background: #fff;
                 padding: 20px;
@@ -51,7 +156,6 @@
 
             .company-title {
                 text-align: left;
-                /* tetap kiri */
                 margin-bottom: 10px;
             }
 
@@ -62,10 +166,8 @@
             .company-section-left {
                 display: flex;
                 flex-direction: column;
-                /* logo di atas teks */
                 align-items: flex-start;
-                /* rata kiri */
-                gap: 8px;
+                gap: 2px;
                 margin-bottom: 10px;
             }
 
@@ -74,7 +176,6 @@
                 height: auto;
             }
 
-            /* khusus alamat */
             .company-info p.address {
                 font-size: 14px;
                 color: #333;
@@ -98,27 +199,22 @@
             .company-addresses {
                 display: flex;
                 justify-content: space-between;
-                /* kiri & kanan */
                 width: 100%;
                 gap: 20px;
-                /* jarak antar kolom */
                 margin-top: 0px;
             }
 
             .company-addresses .office,
             .company-addresses .warehouse {
                 flex: 1;
-                /* agar masing-masing mengambil ruang yang proporsional */
             }
 
             .company-addresses p {
                 margin: 2px 0;
                 font-size: 13px;
-                /* bisa diatur sesuai kebutuhan */
             }
 
             /* ================= TABLE ================= */
-
             table {
                 border-collapse: collapse;
                 width: 100%;
@@ -143,25 +239,41 @@
                 margin: auto;
             }
 
-
-            /* ================= PRINT ================= */
-
-            @media print {
-
-                select,
-                button,
-                h3 {
-                    display: none;
+            /* ================= MOBILE ================= */
+            @media (max-width: 768px) {
+                .app-layout {
+                    flex-direction: column;
                 }
 
+                .sidebar {
+                    width: 100%;
+                    border-radius: 0;
+                }
+
+                .main-content {
+                    padding: 15px;
+                }
+            }
+
+            /* ================= PRINT ================= */
+            @media print {
                 body {
                     background: #fff;
+                }
+
+                .sidebar,
+                .container,
+                .toko-online,
+                #clock-container,
+                button,
+                select,
+                h3 {
+                    display: none !important;
                 }
 
                 .print-header {
                     display: block !important;
                     box-shadow: none;
-                    page-break-after: avoid;
                 }
 
                 table {
@@ -173,89 +285,170 @@
                     -webkit-print-color-adjust: exact;
                 }
             }
+
+            .logo-area {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+
+            .logo-area p {
+                margin: 2px 0 5px 0;
+                font-weight: normal;
+                font-size: 14px;
+            }
+
+            .company-section-left>p {
+                margin: 2px 0 1px 0;
+                font-weight: bold;
+                font-size: 16px;
+            }
+
+            .company-addresses p {
+                margin: 1px 0;
+                font-size: 13px;
+            }
         </style>
     </head>
 
     <body>
+        <div class="app-layout">
+            <!-- ===== SIDEBAR ===== -->
+            <aside class="sidebar">
+                <img src="https://www.jeffan.com/secure/extensions/Intente/Jeffan_21_1_0/21.1.0/img/jeffan-logo.png"
+                    class="sidebar-logo" alt="Logo Sidebar">
+                <h1>Application Data Support</h1>
+                <h2>Update.Ver.02.V.2026</h2>
 
-        <h3>Printview Purchase Order Vendor</h3>
-
-        <select id="vendorSelect">
-            <option value="">-- Select Vendor --</option>
-        </select>
-
-        <select id="poSelect">
-            <option value="">-- Select PO --</option>
-        </select>
-
-        <button onclick="window.print()">Print / Save PDF</button>
-        <button onclick="backToApp1()">🔙 Back to Application</button>
-
-        <!-- ================= HEADER ================= -->
-        <div id="poHeader" class="print-header">
-
-            <!-- Judul -->
-            <div class="company-title" style="text-align:right;">
-                <h1>PURCHASE ORDER</h1>
-            </div>
-            
-            <!-- Logo + Company Info -->
-            <div class="company-section-left">
-                <div class="logo-area">
-                    <img src="https://www.jeffan.com/sca-dev-2024-2-0/extensions/Intente/Jeffan_21_1_0/21.1.0/img/jeffan-logo.png"
-                        alt="Logo Perusahaan" class="company-logo">
-                    <p>BRING STYLE HOME</p>
+                <div id="clock-container">
+                    <div id="clock-time">00:00:00</div>
+                    <div id="clock-date">-</div>
                 </div>
-                <div class="company-info"></div>
-                <p><strong>Jeffan International</strong></p>
-                <div class="company-addresses">
-                    <div class="office">
-                        <p><strong>Office :</strong></p>
-                        <p class="address">1307 E. Main St, ste 1</p>
-                        <p class="address">Chattanooga, TN 37404</p>
-                        <p class="address">Ph: 423.622.0180</p>
-                        <p class="address">Fax: 423.622.0182</p>
-                    </div>
-                    <div class="warehouse">
-                        <p><strong>Warehouse :</strong>
-                        <p> 420 Workman Rd</p>
-                        <p>Chattanooga, TN 37410</p>
+
+                <div class="container">
+                    <h2>📦Purchase Order</h2>
+                    <select id="vendorSelect">
+                        <option value="">-- Select Vendor --</option>
+                    </select>
+
+                    <select id="poSelect">
+                        <option value="">-- Select PO --</option>
+                    </select>
+
+                    <button onclick="window.print()">Print / Save PDF</button>
+                    <button onclick="exportPDF()">Export PDF</button>
+
+                    <button onclick="backToApp1()">🔙 Back to Application</button>
+
+                    <div class="toko-online" id="dashboardLinks">
+                        <h4>Visit Our Online Store</h4>
+                        <div class="link-toko">
+                            <a href="https://www.jeffan.com/" target="_blank">🌐 Jeffan Store</a>
+                            <a href="https://www.wayfair.com" target="_blank">🌐 Wayfair</a>
+                            <a href="https://s.id/atrisna" target="_blank">Developer https://s.id/atrisna</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <hr>
-            <!-- PO INFORMATION -->
-            <div class="po-info">
-                <div class="left-info">
-                    <p><strong>Vendor :</strong> <span id="headerVendor"></span></p>
-                    <p><strong>PO :</strong> <span id="headerPO"></span></p>
-                    <p><strong>ECRD :</strong> <span id="headerECRD"></span></p>
+            </aside>
+
+            <!-- ===== MAIN CONTENT ===== -->
+            <div class="main-content">
+                <!-- HEADER PO -->
+                <div id="poHeader" class="print-header">
+                    <div class="company-title" style="text-align:right;">
+                        <h1>PURCHASE ORDER</h1>
+                    </div>
+
+                    <div class="company-section-left">
+                        <div class="logo-area">
+                            <img src="https://www.jeffan.com/sca-dev-2024-2-0/extensions/Intente/Jeffan_21_1_0/21.1.0/img/jeffan-logo.png"
+                                alt="Logo Perusahaan" class="company-logo">
+                            <p>BRING STYLE HOME</p>
+                        </div>
+                        <div class="company-info"></div>
+                        <p><strong>Jeffan International</strong></p>
+                        <div class="company-addresses">
+                            <div class="office">
+                                <p><strong>Office :</strong></p>
+                                <p class="address">1307 E. Main St, ste 1</p>
+                                <p class="address">Chattanooga, TN 37404</p>
+                                <p class="address">Ph: 423.622.0180</p>
+                                <p class="address">Fax: 423.622.0182</p>
+                            </div>
+                            <div class="warehouse">
+                                <p><strong>Warehouse :</strong></p>
+                                <p>420 Workman Rd</p>
+                                <p>Chattanooga, TN 37410</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="po-info">
+                        <div class="left-info">
+                            <p><strong>Vendor :</strong> <span id="headerVendor"></span></p>
+                            <p><strong>PO :</strong> <span id="headerPO"></span></p>
+                            <p><strong>ECRD :</strong> <span id="headerECRD"></span></p>
+                        </div>
+                        <div class="right-info">
+                            <p><strong>Print Date :</strong> <span id="printDate"></span></p>
+                        </div>
+                    </div>
+
+                    <hr>
                 </div>
-                <div class="right-info">
-                    <p><strong>Print Date :</strong> <span id="printDate"></span></p>
-                </div>
+
+                <!-- TABLE DATA -->
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Qty PO</th>
+                            <th>Qty AQL</th>
+                            <th>Description</th>
+                            <th>Image</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
-            <hr>
         </div>
 
-        <!-- ================= TABLE ================= -->
-
-        <table id="dataTable">
-            <thead>
-                <tr>
-                    <th>Vendor</th>
-                    <th>PO</th>
-                    <th>Item</th>
-                    <th>Qty PO</th>
-                    <th>Qty AQL</th>
-                    <th>Description</th>
-                    <th>Image</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <!-- Tambahkan ini di bagian <head> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
         <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                function updateClock() {
+                    const now = new Date();
+
+                    const hours = String(now.getHours()).padStart(2, '0');
+                    const minutes = String(now.getMinutes()).padStart(2, '0');
+                    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+                    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+                    const dayName = days[now.getDay()];
+                    const date = now.getDate();
+                    const month = months[now.getMonth()];
+                    const year = now.getFullYear();
+
+                    document.getElementById("clock-time").textContent =
+                        `${hours}:${minutes}:${seconds}`;
+
+                    document.getElementById("clock-date").textContent =
+                        `${dayName}, ${date} ${month} ${year}`;
+                }
+
+                setInterval(updateClock, 1000);
+                updateClock();
+            });
             const data = {
                 "CG2510-01": {
                     Vendor: "V68 PT. FURNILAC PRIMAGUNA",
@@ -11318,19 +11511,17 @@
                 if (qty <= 500) return 50;
                 return Math.ceil(qty * 0.2);
             }
-
             document.addEventListener("DOMContentLoaded", function () {
                 const vendorSelect = document.getElementById("vendorSelect");
                 const poSelect = document.getElementById("poSelect");
                 const tbody = document.querySelector("#dataTable tbody");
-                
+
                 const poHeader = document.getElementById("poHeader");
                 const headerVendor = document.getElementById("headerVendor");
                 const headerPO = document.getElementById("headerPO");
                 const headerECRD = document.getElementById("headerECRD");
                 const printDate = document.getElementById("printDate");
 
-                // Isi vendor dropdown
                 [...new Set(Object.values(data).map(d => d.Vendor))].forEach(v => {
                     const opt = document.createElement("option");
                     opt.value = v;
@@ -11338,7 +11529,6 @@
                     vendorSelect.appendChild(opt);
                 });
 
-                // Saat vendor dipilih
                 vendorSelect.addEventListener("change", function () {
                     poSelect.innerHTML = '<option value="">-- Select PO --</option>';
                     tbody.innerHTML = "";
@@ -11354,10 +11544,10 @@
                     });
                 });
 
-                // Saat PO dipilih
                 poSelect.addEventListener("change", function () {
                     tbody.innerHTML = "";
                     const po = this.value;
+
                     if (!po) {
                         poHeader.style.display = "none";
                         return;
@@ -11376,27 +11566,164 @@
                     const printDateElement = document.getElementById("printDate");
                     const printDate = new Date();
                     printDateElement.textContent = printDate.toLocaleDateString("en-US");
-                    
+
                     poHeader.style.display = "block";
 
                     data[po].items.forEach(item => {
                         const tr = document.createElement("tr");
                         const qtyAQL = hitungAQL(item.qty);
                         tr.innerHTML = `
-                        <td data-label="Vendor">${data[po].Vendor}</td>
-                        <td data-label="PO">${po}</td>
-                        <td data-label="Item">${item.item}</td>
-                        <td data-label="Qty PO">${item.qty}</td>
-                        <td data-label="Qty AQL">${qtyAQL}</td>
-                        <td data-label="Description">${item.desc}</td>
-                        <td data-label="Image"><img src="${item.image}"></td>
+                        <td>${item.item}</td>
+                        <td>${item.qty}</td>
+                        <td>${qtyAQL}</td>
+                        <td>${item.desc}</td>
+                        <td><img src="${item.image}"></td>
                     `;
                         tbody.appendChild(tr);
                     });
                 });
             });
-        </script>
 
+
+            function exportPDF() {
+                const vendor = document.getElementById('headerVendor').innerText.trim();
+                const poNumber = document.getElementById('headerPO').innerText.trim();
+
+                // WARNING jika vendor / PO belum dipilih
+                if (!vendor || !poNumber) {
+                    alert("Silakan pilih Vendor dan PO terlebih dahulu sebelum mengekspor PDF.");
+                    return;
+                }
+
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'pt', 'a4');
+                const marginLeft = 40;
+                const marginRight = 40;
+                let startY = 20;
+
+                async function generatePDF() {
+                    const ecrd = document.getElementById('headerECRD').innerText.trim();
+
+                    // Ambil data tabel dari DOM
+                    const table = document.getElementById('dataTable');
+                    const head = [];
+                    const body = [];
+
+                    const allHeaders = table.querySelectorAll('thead th');
+                    const wantedCols = [2, 3, 4, 5, 6]; // item, qty po, qty aql, desc, image
+
+                    wantedCols.forEach(idx => {
+                        head.push({
+                            content: allHeaders[idx].innerText.trim(),
+                            styles: { halign: 'center', fontStyle: 'bold', fillColor: [173, 216, 230] } // biru muda
+                        });
+                    });
+
+                    const trs = table.querySelectorAll('tbody tr');
+                    trs.forEach((tr, i) => {
+                        const tds = tr.querySelectorAll('td');
+                        const rowData = [];
+                        wantedCols.forEach(idx => {
+                            if (idx === 6) {
+                                rowData.push(''); // kolom image tetap kosong
+                            } else {
+                                rowData.push(tds[idx].innerText.trim());
+                            }
+                        });
+                        body.push(rowData);
+                    });
+
+                    // Ambil logo perusahaan
+                    let logoBase64 = null;
+                    try {
+                        logoBase64 = await new Promise((resolve, reject) => {
+                            const img = new Image();
+                            img.setAttribute('crossOrigin', 'anonymous');
+                            img.onload = function () {
+                                const canvas = document.createElement("canvas");
+                                canvas.width = this.width;
+                                canvas.height = this.height;
+                                const ctx = canvas.getContext("2d");
+                                ctx.drawImage(this, 0, 0);
+                                resolve(canvas.toDataURL("image/png"));
+                            };
+                            img.onerror = () => reject();
+                            img.src = 'https://www.jeffan.com/sca-dev-2024-2-0/extensions/Intente/Jeffan_21_1_0/21.1.0/img/jeffan-logo.png';
+                        });
+                    } catch {
+                        logoBase64 = null;
+                    }
+
+                    // HEADER HALAMAN PERTAMA
+                    if (logoBase64) {
+                        const logoWidth = 100;
+                        const logoHeight = 40;
+                        pdf.addImage(logoBase64, 'PNG', marginLeft, startY, logoWidth, logoHeight);
+                    }
+
+                    const headerXText = marginLeft + (logoBase64 ? 110 : 0);
+                    pdf.setFontSize(14);
+                    pdf.text("PURCHASE ORDER", headerXText, startY + 15);
+
+                    startY += 50;
+                    pdf.setFontSize(12);
+                    pdf.text("Jeffan International", headerXText, startY);
+                    startY += 15;
+                    pdf.text("1307 E. Main St, ste 1, Chattanooga, TN 37404", headerXText, startY);
+                    startY += 15;
+                    pdf.text("Ph: 423.622.0180   Fax: 423.622.0182", headerXText, startY);
+
+                    startY += 30;
+                    pdf.text(`Vendor: ${vendor}`, marginLeft, startY);
+                    startY += 15;
+                    pdf.text(`PO: ${poNumber}`, marginLeft, startY);
+                    startY += 15;
+                    pdf.text(`ECRD: ${ecrd}`, marginLeft, startY);
+
+                    startY += 20;
+
+                    // RENDER TABEL
+                    pdf.autoTable({
+                        startY: startY,
+                        head: [head],
+                        body: body,
+                        margin: { left: marginLeft, right: marginRight },
+                        styles: {
+                            fontSize: 10,
+                            cellPadding: 4,
+                            valign: 'middle',
+                            lineWidth: 0.5,
+                            lineColor: 0
+                        },
+                        headStyles: {
+                            fillColor: [30, 144, 255], // Dodger Blue (biru cerah & kuat)
+                            halign: 'center',
+                            lineWidth: 0.5,
+                            lineColor: [0, 0, 0],
+                            fontStyle: 'bold'
+                        },
+
+                        alternateRowStyles: {
+                            fillColor: [240, 248, 255] // warna zebra light
+                        },
+                        columnStyles: {
+                            4: { cellWidth: 50 } // kolom image
+                        },
+                        pageBreak: 'auto',
+                        showHead: 'firstPage',
+                    });
+
+                    const safeVendor = vendor.replace(/[\\/:*?"<>|]/g, '_');
+                    const safePO = poNumber.replace(/[\\/:*?"<>|]/g, '_');
+                    pdf.save(`PurchaseOrder_${safeVendor}_${safePO}.pdf`);
+                }
+
+                generatePDF();
+            }
+
+
+        </script>
     </body>
 
 </html>
+            
