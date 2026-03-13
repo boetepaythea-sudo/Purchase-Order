@@ -6923,13 +6923,15 @@
                 const headerECRD = document.getElementById("headerECRD");
                 const printDate = document.getElementById("printDate");
 
-                [...new Set(Object.values(data).map(d => d.Vendor))].forEach(v => {
-                    const opt = document.createElement("option");
-                    opt.value = v;
-                    opt.textContent = v;
-                    vendorSelect.appendChild(opt);
-                });
-
+                [...new Set(Object.values(data).map(d => d.Vendor))]
+                    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+                    .forEach(v => {
+                        const opt = document.createElement("option");
+                        opt.value = v;
+                        opt.textContent = v;
+                        vendorSelect.appendChild(opt);
+                    });
+                
                 vendorSelect.addEventListener("change", function () {
                     poSelect.innerHTML = '<option value="">-- Select PO --</option>';
                     tbody.innerHTML = "";
